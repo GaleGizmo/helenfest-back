@@ -20,6 +20,7 @@ const karaokeSchema = new Schema(
         message: 'Debes proponer entre 1 y 2 canciones.',
       },
     },
+    duetWithHost: { type: Boolean, default: false },
   },
   { timestamps: true }
 )
