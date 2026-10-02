@@ -14,12 +14,6 @@ function getTransporter() {
     );
     return null;
   }
-  console.log("Configurando el transporter de nodemailer...");
-  console.log(`SMTP_HOST: ${SMTP_HOST}`);
-  console.log(`SMTP_PORT: ${SMTP_PORT}`);
-  console.log(`SMTP_SECURE: ${SMTP_SECURE}`);
-  console.log(`SMTP_USER: ${SMTP_USER}`);
-  console.log(`SMTP_PASS: ${SMTP_PASS ? "********" : "not set"}`);
 
   transporter = nodemailer.createTransport({
     host: SMTP_HOST,

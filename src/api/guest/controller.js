@@ -12,11 +12,15 @@ async function createGuest(req, res) {
     }
 
     const guest = await Guest.create({ email, name, companionName, hasChild, dish })
-    res.status(201).json(guest)
 
-    sendTicketEmail(guest).catch((error) => {
-      console.error('Error al enviar el email de confirmación:', error.message)
-    })
+    // En serverless (Vercel) hay que esperar al envío: tras responder, la función se congela.
+    try {
+      await sendTicketEmail(guest)
+    } catch (mailError) {
+      console.error('Error al enviar el email de confirmación:', mailError.message)
+    }
+
+    res.status(201).json(guest)
   } catch (error) {
     if (error.code === 11000) {
       return res.status(409).json({ message: 'Ya existe un invitado registrado con ese email.' })

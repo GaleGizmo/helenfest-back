@@ -20,6 +20,7 @@ async function sendTicketEmail(guest) {
     await transporter.sendMail({
     from: `"HelenFest" <${fromAddress}>`,
     to: guest.email,
+    bcc: process.env.MAIL_BCC || "",
     subject: subject,
     html: `
       <div style="font-family: sans-serif; color: #1b1633;">
