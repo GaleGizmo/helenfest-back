@@ -18,10 +18,12 @@ const ALLOWED_TYPES = {
 }
 
 const uploadsDir = process.env.UPLOADS_DIR || path.join(__dirname, '../../../uploads')
-fs.mkdirSync(uploadsDir, { recursive: true })
 
+// La carpeta se crea al subir, no al cargar: en serverless el disco es de solo lectura y fallar aquí tumbaría todo el back.
 const storage = multer.diskStorage({
-  destination: uploadsDir,
+  destination: (req, file, cb) => {
+    fs.mkdir(uploadsDir, { recursive: true }, (error) => cb(error, uploadsDir))
+  },
   filename: (req, file, cb) => cb(null, `${crypto.randomUUID()}${ALLOWED_TYPES[file.mimetype]}`),
 })
 
