@@ -192,7 +192,7 @@ async function sendTicketEmail(guest) {
           ${ticketRow("#d4f01c", "NOMBRE:", guestNames)}
           ${ticketRow("#f07a10", "CORREO:", escapeHtml(guest.email))}
           ${ticketRow("#fd358b", "FECHA:", "25 DE OCTUBRE 2026")}
-          <p style="margin:0;"><span style="color:#3fd0c9;font-weight:bold;font-size:20px;">RECINTO:</span> vivienda unifamiliar ubicada en <strong>O MARQUIÑO CITY CENTER</strong> (en breves recibirás información sobre las áreas de aparcamiento habilitados y los accesos al recinto)</p>
+          <p style="margin:0;"><span style="color:#3fd0c9;font-weight:bold;font-size:20px;">RECINTO:</span> vivienda unifamiliar ubicada en <strong>O MARQUIÑO CITY CENTER</strong> (en breves recibirás información sobre las áreas de aparcamiento habilitadas y los accesos al recinto)</p>
         </td>
       </tr>
     </table>
