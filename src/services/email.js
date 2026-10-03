@@ -179,7 +179,9 @@ async function sendTicketEmail(guest) {
   const ticketTable = `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:2px solid #000000;margin:24px 0;font-family:Arial,Helvetica,sans-serif;color:#222222;">
       <tr>
-        <td width="35%" align="center" valign="middle" style="border-right:2px solid #000000;padding:16px;">${qrCell}</td>
+        <td align="center" valign="middle" style="border-right:2px solid #000000;padding:16px;">${qrCell}</td>
+      </tr>
+        <tr>
         <td valign="middle" style="padding:20px 24px;font-size:16px;line-height:1.5;">
           ${ticketRow("#02C9C2", "INCLUYE:", "ACCESO AL HELENFEST - (PACK KARAOKE)")}
           ${ticketRow("#e9f400", "NOMBRE:", guestNames)}
