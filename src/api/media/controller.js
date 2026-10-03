@@ -1,10 +1,18 @@
 const fs = require('fs/promises')
+const path = require('path')
+const mongoose = require('mongoose')
 const Guest = require('../guest/model')
 const Media = require('./model')
-const { MAX_IMAGE_BYTES } = require('./upload')
+const { MAX_IMAGE_BYTES, uploadsDir } = require('./upload')
 
 function removeFiles(files) {
   return Promise.all(files.map((file) => fs.unlink(file.path).catch(() => {})))
+}
+
+function removeStoredFiles(items) {
+  return Promise.all(
+    items.map((item) => fs.unlink(path.join(uploadsDir, path.basename(item.filename))).catch(() => {}))
+  )
 }
 
 async function uploadMedia(req, res) {
@@ -61,4 +69,35 @@ async function getMedia(req, res) {
   }
 }
 
-module.exports = { uploadMedia, getMedia }
+async function deleteMedia(req, res) {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({ message: 'El id no es válido.' })
+    }
+
+    const item = await Media.findByIdAndDelete(req.params.id)
+    if (!item) return res.status(404).json({ message: 'No existe ningún archivo con ese id.' })
+
+    await removeStoredFiles([item])
+    res.json({ deleted: 1, filename: item.filename })
+  } catch (error) {
+    res.status(500).json({ message: 'Error al borrar el archivo.', error: error.message })
+  }
+}
+
+async function deleteMediaByEmail(req, res) {
+  try {
+    const email = String(req.query.email || '').trim().toLowerCase()
+    if (!email) return res.status(400).json({ message: 'Hace falta el parámetro ?email=.' })
+
+    const items = await Media.find({ email })
+    await Media.deleteMany({ email })
+    await removeStoredFiles(items)
+
+    res.json({ deleted: items.length, email })
+  } catch (error) {
+    res.status(500).json({ message: 'Error al borrar los archivos.', error: error.message })
+  }
+}
+
+module.exports = { uploadMedia, getMedia, deleteMedia, deleteMediaByEmail }

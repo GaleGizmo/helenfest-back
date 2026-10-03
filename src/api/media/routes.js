@@ -1,7 +1,8 @@
 const { Router } = require('express')
 const multer = require('multer')
 const { upload, MAX_FILES, MAX_VIDEO_BYTES } = require('./upload')
-const { uploadMedia, getMedia } = require('./controller')
+const { uploadMedia, getMedia, deleteMedia, deleteMediaByEmail } = require('./controller')
+const requireAdmin = require('../../middleware/requireAdmin')
 
 const router = Router()
 
@@ -24,5 +25,7 @@ function handleUpload(req, res, next) {
 
 router.get('/', getMedia)
 router.post('/', handleUpload, uploadMedia)
+router.delete('/', requireAdmin, deleteMediaByEmail)
+router.delete('/:id', requireAdmin, deleteMedia)
 
 module.exports = router
