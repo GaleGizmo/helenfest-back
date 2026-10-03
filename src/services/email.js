@@ -51,7 +51,7 @@ async function sendTicketEmail(guest) {
   const fromAddress = process.env.MAIL_FROM || process.env.SMTP_USER;
   const subject = "¡Tu entrada para HelenFest 2026! 🎉";
 
-  const salutation = `Hola, <strong><span style="color: #F9018B;">${escapeHtml(guest.name)}</span></strong>, gracias por comprar a través de nuestra web. Aquí tienes tu entrada para el HelenFest.`;
+  const salutation = `Hola, <strong><span style="color: #F9018B;">${escapeHtml(guest.name)}</span></strong>, gracias por comprar a través de nuestra web. Aquí tienes tu entrada para el HelenFest`;
 
   const salutation2 = `Recuerda que no es necesario imprimir tu entrada. Muestra este QR en tu dispositivo móvil para poder acceder al recinto (y sobretodo, no lo escanees).`;
 
