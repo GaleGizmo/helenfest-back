@@ -203,7 +203,7 @@ async function sendTicketEmail(guest) {
         <p style="text-align: justify;">${salutation2}</p>
         ${ticketTable}
         <h3 style="color: #F9018B; font-size: 14px;">CONDICIONES GENERALES</h3>
-        <hr style="border: 0; border-top: 1px solid #cccccc; margin-top: 28px; ">
+        <hr style="border: 0; border-top: 1px solid #cccccc;">
         ${generalCondition}
         
         <hr style="border: 0; border-top: 1px solid #cccccc; margin-top: 28px;">
