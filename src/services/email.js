@@ -49,20 +49,14 @@ async function sendTicketEmail(guest) {
   if (!transporter) return;
 
   const fromAddress = process.env.MAIL_FROM || process.env.SMTP_USER;
-  const subject = guest.companionName
-    ? "¡Vuestra entrada para HelenFest 2026! 🎉"
-    : "¡Tu entrada para HelenFest 2026! 🎉";
+  const subject = "¡Tu entrada para HelenFest 2026! 🎉";
 
-  const salutation = guest.companionName
-    ? `Hola, <strong><span style="color: #F9018B;">${escapeHtml(guest.name)}</span></strong> y <strong><span style="color: #F9018B;">${escapeHtml(guest.companionName)}</span></strong>, gracias por comprar a través de nuestra web. Aquí tenéis vuestra entrada para el HelenFest. `
-    : `Hola, <strong><span style="color: #F9018B;">${escapeHtml(guest.name)}</span></strong>, gracias por comprar a través de nuestra web. Aquí tienes tu entrada para el HelenFest.`;
+  const salutation = `Hola, <strong><span style="color: #F9018B;">${escapeHtml(guest.name)}</span></strong>, gracias por comprar a través de nuestra web. Aquí tienes tu entrada para el HelenFest.`;
 
-  const salutation2 = guest.companionName
-    ? `Recordad que no es necesario imprimir vuestras entradas. Mostrad este QR en vuestros dispositivos móviles para poder acceder al recinto (y sobretodo, no lo escaneeis). `
-    : `Recuerda que no es necesario imprimir tu entrada. Muestra este QR en tu dispositivo móvil para poder acceder al recinto (y sobretodo, no lo escanees).`;
+  const salutation2 = `Recuerda que no es necesario imprimir tu entrada. Muestra este QR en tu dispositivo móvil para poder acceder al recinto (y sobretodo, no lo escanees).`;
 
   const generalCondition = `
-  <div style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 1.6; color: #222;">
+  <div style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 1.6; color: #222; text-align: justify;">
 
     <p>
       <strong>🎟️ &nbsp;01. ESTA ENTRADA INCLUYE DERECHO A DISFRUTAR MUCHÍSIMO</strong><br>
@@ -140,7 +134,7 @@ async function sendTicketEmail(guest) {
   </div>
 `;
   const legalNotice = `
-    <p style="font-size: 10px; color: #888888;">
+    <p style="font-size: 10px; color: #888888; text-align: justify;">
       Este mensaje puede contener información inventada y de dudosa confidencialidad.
        Si Ud. No es el destinatario (o el responsable de hacer llegar este mensaje al destinatario), le informamos 
        que está totalmente prohibida cualquier utilización, divulgación, distribución y/o reproducción de esta 
@@ -156,7 +150,11 @@ async function sendTicketEmail(guest) {
             motivo de la reclamación (no lo valoraremos, solo es para reírnos, por si no lo teníamos todavía). 
              Se reserva el derecho de admisión, en caso de detectar negativa en participación activa en el evento 
              puede resultar expulsado del recinto con una patadita en el culito. Se recuerda que pese a lo que 
-             pueda parecer, este festival tan solo es una celebración de cumpleaños.
+             pueda parecer, este festival tan solo es una celebración de cumpleaños. <a href="https://www.helenfest.es"
+         target="_blank"
+         style="color: #F9018B; font-weight: bold; text-decoration: none;">
+        Helenfest.es
+      </a>
     </p>
   `;
 
@@ -207,10 +205,10 @@ async function sendTicketEmail(guest) {
         <p>${salutation2}</p>
         ${ticketTable}
         <h3 style="color: #F9018B; font-size: 14px;">CONDICIONES GENERALES</h3>
-        <hr style="border: 0; border-top: 1px solid #cccccc; margin: 28px 0;">
+        <hr style="border: 0; border-top: 1px solid #cccccc; margin-top: 28px; ">
         ${generalCondition}
         
-        <hr style="border: 0; border-top: 1px solid #cccccc; margin: 28px 0;">
+        <hr style="border: 0; border-top: 1px solid #cccccc; margin-top: 28px;">
         ${legalNotice}
       </div>
     `,
