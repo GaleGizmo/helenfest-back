@@ -21,7 +21,10 @@ function getQrBuffer() {
 function escapeHtml(value = "") {
   return String(value).replace(
     /[&<>"']/g,
-    (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
+    (char) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        char
+      ],
   );
 }
 
@@ -47,83 +50,75 @@ async function sendTicketEmail(guest) {
 
   const fromAddress = process.env.MAIL_FROM || process.env.SMTP_USER;
   const subject = guest.companionName
-    ? "¡Vuestra entrada para HelenFest está confirmada! 🎉"
-    : "¡Tu entrada para HelenFest está confirmada! 🎉";
+    ? "¡Vuestra entrada para HelenFest 2026! 🎉"
+    : "¡Tu entrada para HelenFest 2026! 🎉";
 
   const salutation = guest.companionName
-    ? `Hola, <strong><span style="color: #fd358b;">${escapeHtml(guest.name)}</span></strong> y <strong><span style="color: #fd358b;">${escapeHtml(guest.companionName)}</span></strong>, gracias por comprar a través de nuestra web. Aquí tenéis vuestra entrada para el HelenFest. `
-    : `Hola, <strong><span style="color: #fd358b;">${escapeHtml(guest.name)}</span></strong>, gracias por comprar a través de nuestra web. Aquí tienes tu entrada para el HelenFest.`;
+    ? `Hola, <strong><span style="color: #F9018B;">${escapeHtml(guest.name)}</span></strong> y <strong><span style="color: #F9018B;">${escapeHtml(guest.companionName)}</span></strong>, gracias por comprar a través de nuestra web. Aquí tenéis vuestra entrada para el HelenFest. `
+    : `Hola, <strong><span style="color: #F9018B;">${escapeHtml(guest.name)}</span></strong>, gracias por comprar a través de nuestra web. Aquí tienes tu entrada para el HelenFest.`;
 
   const salutation2 = guest.companionName
     ? `Recordad que no es necesario imprimir vuestras entradas. Mostrad este QR en vuestros dispositivos móviles para poder acceder al recinto (y sobretodo, no lo escaneeis). `
     : `Recuerda que no es necesario imprimir tu entrada. Muestra este QR en tu dispositivo móvil para poder acceder al recinto (y sobretodo, no lo escanees).`;
 
   const generalCondition = `
-  <div style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.6; color: #222;">
+  <div style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 1.6; color: #222;">
 
     <p>
       <strong>🎟️ &nbsp;01. ESTA ENTRADA INCLUYE DERECHO A DISFRUTAR MUCHÍSIMO</strong><br>
       Incluye música, risas, bingo, karaoke y la peciosísima oportunidad de celebrar juntos este cumpleaños.
       Eso sí, ¡<strong>PROHIBIDO VENIR A MIRAR</strong>! El disfrute viene incluido y se recomienda sacarle el máximo partido.
-    </p>
-
-    <p>
+    <br>
       <strong>🍰 &nbsp;02. TRAE ALGUNA COMIDITA RICA PARA COMPARTIR</strong><br>
       El <strong>HELENFEST</strong> es un festival de alta gastronomía colaborativa de andar por casa, así que cada asistente deberá traer algo sabrosoooo.
       Todo será recibido con alegría y <del>entusiasmo</del> (¡hambre, mucha hambre!).
-    </p>
-
-    <p>
+   <br>
       <strong>🎶 &nbsp;03. DURANTE EL CONCIERTO, ¡SE CANTA A GRITO PELAO!</strong><br>
       Está permitido bailar, cantar, aplaudir y emocionarse (y abuchear también, ¿eh?, que ya estamos en otoño y tiene que llover un poquito…).
       Se recomienda especialmente corear las canciones, aunque no se conozca la letra.
       La organización valorará muchísimo el entusiasmo y establecerá preferencias hacia aquellos
-      <strong>FANSES</strong> que más se hagan notar (Fomentamos activamente la competitividad).
-    </p>
-
-    <p>
+      <strong>FANSES</strong> que más se hagan notar (<u>Fomentamos activamente la competitividad</u>).
+    <br>
       <strong>🎤 &nbsp;04. EL KARAOKE ES TERRITORIO LIBRE DE VERGÜENZA</strong><br>
-      Aquí no se viene ensayado de casa, no se practica, no se estudia!. No valen los «<em>yo no canto</em>»
-      ni los «<em>me da vergüenza</em>». ¡Se coge el micro y a destrozar canciones!
+      Aquí no se viene ensayado de casa, no se practica, ¡no se estudia!. No valen los «<em>yo no canto</em>»
+      ni los «<em>me da vergüenza</em>». ¡Coge el micro y a destrozar canciones!
       Porque «cuanto peor para todos, mejor».
     <br>
       Se valorará especialmente la falta de reparos en perder la dignidad y el entusiasmo desmedido.
-      Por lo que, por favor, cantad mucho… cantad alto, cantad bajo, cantad bien, cantad fatal,
-      cantad como si estuvierais en la ducha. Lo importante no es acertar las notas:
+      Por lo que, por favor, canta mucho… canta alto, canta bajo, canta bien, canta fatal,
+      canta como si estuvieras en la ducha. Lo importante no es acertar las notas:
       <strong>lo importante es pasarlo bien juntos.</strong>
-    </p>
+    <br>
 
-    <p>
+  
       <strong>💃 &nbsp;05. ¡A PERREAR HASTA ABAJO! <em>(Pero con cabeza)</em></strong><br>
       En el <strong>HELENFEST</strong> todos los estilos de baile son válidos, especialmente aquellos bailes vergonzosos
       que pueden dejar recuerdos para la posteridad, aunque requieran una ambulancia.
-      ¡Que ya tenemos una edad! Las rodillas se resienten, pero aún nos queda mucha fiesta.<br>
+      ¡Que ya tenemos una edad!... y las rodillas se resienten.
       <em>(La organización informa de la existencia de paracetamol e ibuprofeno en el recinto).</em>
-    </p>
+    <br>
 
-    <p>
       <strong>😂 &nbsp;06. ¡AQUÍ SE VIENE A HACER EL RIDÍCULO!</strong><br>
-      Esperamos que lo des todo con las canciones, el bingo y los bailes…
-      Se recomienda compartir las risas con los demás y sacar alguna que otra fotillo para el recuerdo
-      (tu sabes…jeje).
-    </p>
+      Se recomienda dejarse llevar, inmortalizar las mayores vergüenzas y reírse mucho. 
+      En este festival valoramos el concepto <em>“cada vez que sale, aporta 📸🎥”</em>, por lo que se ruega colaboración 
+      en la creación de recuerdos que probablemente preferiremos olvidar! (tu sabes…jeje 😈).
+    <br>
 
-    <p>
+   
       <strong>🥂 &nbsp;07. ABRAZOS, BRINDIS Y AMOOOOOOOR</strong> (oioioioioi)<br>
       Se recomienda repartir achuchones. La organización considera que celebrar un cumpleaños rodeada
       de personas queridas es una de las mayores motivaciones para montar todo este despropósito.
       Así que, solo por hoy y sin que sirva de precedente, <strong>¡ABRAZOS GRATIS!</strong>
-    </p>
+    <br>
 
-    <p>
       <strong>🎁 &nbsp;08. POLÍTICA DE REGALOS</strong><br>
       Se informa que <strong>no se aceptan presentes.</strong>
-      El mayor regalo de cumpleaños es vuestro esfuerzo por compartir este día conmigo.
-    </p>
+      El mayor regalo de cumpleaños es tu esfuerzo por compartir este día conmigo.
+    <br>
 
-    <p>
+   
       <strong>❤️ &nbsp;CLÁUSULA ADICIONAL</strong><br>
-      Helenita Retaca siempre ha soñado con un cumpleaños-karaoke rodeada de gente a la que quiere mucho.
+      Helenita versión mini (una monada) siempre ha soñado con un cumpleaños-karaoke rodeada de gente a la que quiere mucho.
       Y, 33 años después, ¡lo ha conseguido!<br>
     
       Así que, si hoy recibes este correo, no es solo porque tengas una entrada para un festival de dudosa
@@ -133,19 +128,19 @@ async function sendTicketEmail(guest) {
       Y todo esto jamás habría sido posible sin <strong>Migui</strong>, que hoy se merece una mención especial
       por su <strong>ayuda, su apoyo y por aguantar con (in)finita paciencia</strong> todas mis ocurrencias
       macarrónicas y los niveles de entusiasmo que me han <u>poseído fuertemente</u> durante la organización
-      de este festival «de dudosa procedencia».<br>
+      de este festival «de dudosa procedencia».
       <strong>¡Gracias! ❤️</strong>
-    </p>
+    <br>
+    <br>
+  
 
-    <p>
-      Con muchísimo cariño,<br><br>
-      <strong>🎸 &nbsp;LA COMISIÓN DE FIESTAS DEL HELENFEST 🎤</strong>
+      <strong>🎸 &nbsp;A COMISIÓN DE FESTAS DO HELENFEST &nbsp; 🎤</strong>
     </p>
 
   </div>
 `;
   const legalNotice = `
-    <p style="font-size: 12px; color: #888888;">
+    <p style="font-size: 10px; color: #888888;">
       Este mensaje puede contener información inventada y de dudosa confidencialidad.
        Si Ud. No es el destinatario (o el responsable de hacer llegar este mensaje al destinatario), le informamos 
        que está totalmente prohibida cualquier utilización, divulgación, distribución y/o reproducción de esta 
@@ -160,13 +155,13 @@ async function sendTicketEmail(guest) {
             rogamos nos hagan llegar adjuntos los vídeos comprometedores o fotografías especialmente desfavorecedoras 
             motivo de la reclamación (no lo valoraremos, solo es para reírnos, por si no lo teníamos todavía). 
              Se reserva el derecho de admisión, en caso de detectar negativa en participación activa en el evento 
-             puede ser expulsado del recinto con una patada en el culito.
+             puede resultar expulsado del recinto con una patadita en el culito. Se recuerda que pese a lo que 
+             pueda parecer, este festival tan solo es una celebración de cumpleaños.
     </p>
   `;
 
   const headerImages = [
-    inlineImage("logo_email.png", "logo", "HelenFest"),
-    inlineImage("congrats.jpg", "congrats", "¡Ya tienes entrada!"),
+    inlineImage("email_pic.jpg", "congrats", "¡Ya tienes entrada!"),
   ].filter(Boolean);
 
   const qrBuffer = await getQrBuffer();
@@ -186,13 +181,14 @@ async function sendTicketEmail(guest) {
   const ticketTable = `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:2px solid #000000;margin:24px 0;font-family:Arial,Helvetica,sans-serif;color:#222222;">
       <tr>
-        <td width="30%" align="center" valign="middle" style="border-right:2px solid #000000;padding:16px;">${qrCell}</td>
+        <td width="35%" align="center" valign="middle" style="border-right:2px solid #000000;padding:16px;">${qrCell}</td>
         <td valign="middle" style="padding:20px 24px;font-size:16px;line-height:1.5;">
-          ${ticketRow("#3fd0c9", "INCLUYE:", "ACCESO AL HELENFEST - (PACK KARAOKE)")}
-          ${ticketRow("#d4f01c", "NOMBRE:", guestNames)}
-          ${ticketRow("#f07a10", "CORREO:", escapeHtml(guest.email))}
-          ${ticketRow("#fd358b", "FECHA:", "25 DE OCTUBRE 2026")}
-          <p style="margin:0;"><span style="color:#3fd0c9;font-weight:bold;font-size:20px;">RECINTO:</span> vivienda unifamiliar ubicada en <strong>O MARQUIÑO CITY CENTER</strong> (en breves recibirás información sobre las áreas de aparcamiento habilitadas y los accesos al recinto)</p>
+          ${ticketRow("#02C9C2", "INCLUYE:", "ACCESO AL HELENFEST - (PACK KARAOKE)")}
+          ${ticketRow("#e9f400", "NOMBRE:", guestNames)}
+          ${ticketRow("#FA6900", "CORREO:", escapeHtml(guest.email))}
+          ${ticketRow("#F9018B", "APORTACION CULINARIA:", escapeHtml(guest.culinaryContribution))}
+          ${ticketRow("#02C9C2", "FECHA Y HORA:", "25 DE OCTUBRE 2026 - 12H")}
+          <p style="margin:0;"><span style="color:#e9f400;font-weight:bold;font-size:20px;">RECINTO:</span> vivienda unifamiliar ubicada en <strong>O MARQUIÑO CITY CENTER</strong> (en breves recibirás información sobre las áreas de aparcamiento habilitadas y los accesos al recinto)</p>
         </td>
       </tr>
     </table>
@@ -205,12 +201,12 @@ async function sendTicketEmail(guest) {
     subject: subject,
     attachments,
     html: `
-      <div style="font-family: sans-serif; color: #1b1633;">
+      <div style="font-family: sans-serif; color: #1b1633; background-color: #ffffff;">
         ${headerImages.map((image) => image.html).join("")}
         <p>¡${salutation}!</p>
         <p>${salutation2}</p>
         ${ticketTable}
-        <h3>CONDICIONES GENERALES</h3>
+        <h3 style="color: #F9018B; font-size: 14px;">CONDICIONES GENERALES</h3>
         <hr style="border: 0; border-top: 1px solid #cccccc; margin: 28px 0;">
         ${generalCondition}
         
