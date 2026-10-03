@@ -172,10 +172,6 @@ async function sendTicketEmail(guest) {
     ...(qrBuffer ? [{ filename: "qr.png", content: qrBuffer, cid: "qr" }] : []),
   ];
 
-  const guestNames = guest.companionName
-    ? `${escapeHtml(guest.name)} y ${escapeHtml(guest.companionName)}`
-    : escapeHtml(guest.name);
-
   const ticketTable = `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:2px solid #000000;margin:24px 0;font-family:Arial,Helvetica,sans-serif;color:#222222;">
       <tr>
@@ -184,9 +180,9 @@ async function sendTicketEmail(guest) {
         <tr>
         <td valign="middle" style="padding:20px 24px;font-size:16px;line-height:1.5;">
           ${ticketRow("#02C9C2", "INCLUYE:", "ACCESO AL HELENFEST - (PACK KARAOKE)")}
-          ${ticketRow("#e9f400", "NOMBRE:", guestNames)}
+          ${ticketRow("#e9f400", "NOMBRE:", escapeHtml(guest.name))}
           ${ticketRow("#FA6900", "CORREO:", escapeHtml(guest.email))}
-          ${ticketRow("#F9018B", "APORTACION CULINARIA:", escapeHtml(guest.culinaryContribution))}
+          ${ticketRow("#F9018B", "APORTACION CULINARIA:", escapeHtml(guest.dish))}
           ${ticketRow("#02C9C2", "FECHA Y HORA:", "25 DE OCTUBRE 2026 - 12H")}
           <p style="margin:0;"><span style="color:#e9f400;font-weight:bold;font-size:20px;">RECINTO:</span> vivienda unifamiliar ubicada en <strong>O MARQUIÑO CITY CENTER</strong> (en breves recibirás información sobre las áreas de aparcamiento habilitadas y los accesos al recinto)</p>
         </td>
