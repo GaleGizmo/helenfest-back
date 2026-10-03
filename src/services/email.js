@@ -199,7 +199,7 @@ async function sendTicketEmail(guest) {
     html: `
       <div style="font-family: sans-serif; color: #1b1633; background-color: #ffffff;">
         ${headerImages.map((image) => image.html).join("")}
-        <p>¡${salutation}!</p>
+        <p style="text-align: justify;">¡${salutation}!</p>
         <p style="text-align: justify;">${salutation2}</p>
         ${ticketTable}
         <h3 style="color: #F9018B; font-size: 14px;">CONDICIONES GENERALES</h3>
