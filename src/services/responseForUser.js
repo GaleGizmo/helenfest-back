@@ -47,7 +47,7 @@ function buildKaraokeHtml(formattedEntries) {
 
 function buildGuestDishesHtml(formattedDishes) {
   const rows = formattedDishes
-    .map((dish) => `<tr><td>${escapeHtml(dish.invitado)}</td><td>${escapeHtml(dish["aportacion culinaria"])}</td></tr>`)
+    .map((dish) => `<tr><td>${escapeHtml(dish.invitado)}</td><td>${escapeHtml(dish.email)}</td><td>${escapeHtml(dish["aportacion culinaria"])}</td></tr>`)
     .join('')
 
   return `<!DOCTYPE html>
@@ -65,7 +65,7 @@ function buildGuestDishesHtml(formattedDishes) {
 <body>
   <h1>Platos de los invitados</h1>
   <table>
-    <thead><tr><th>Invitado</th><th>Aportación culinaria</th></tr></thead>
+    <thead><tr><th>Invitado</th><th>Email</th><th>Aportación culinaria</th></tr></thead>
     <tbody>${rows}</tbody>
   </table>
 </body>

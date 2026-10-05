@@ -102,9 +102,10 @@ async function deleteGuestByEmail(req, res) {
 
 async function getAllDishesByUser(req, res) {
   try {
-    const dishes = await Guest.find().select("name dish -_id");
+    const dishes = await Guest.find().select("name email dish -_id");
     const formattedDishes = dishes.map((dish) => ({
       "invitado": dish.name,
+      "email": dish.email,
       "aportacion culinaria": dish.dish,
     }));
     res.send(buildGuestDishesHtml(formattedDishes));
