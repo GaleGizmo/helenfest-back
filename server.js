@@ -17,7 +17,7 @@ connectDB()
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'Helenfest backend en construcción',
+    message: 'Helenfest backend',
     status: 'ok',
   })
 })

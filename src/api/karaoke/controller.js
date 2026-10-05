@@ -1,4 +1,5 @@
 const Karaoke = require('./model')
+const { buildKaraokeHtml } = require('../../services/responseForUser')
 
 async function createKaraoke(req, res) {
   try {
@@ -37,4 +38,22 @@ async function getKaraokeByEmail(req, res) {
   }
 }
 
-module.exports = { createKaraoke, getKaraokeByEmail }
+async function getAllKaraoke(req, res) {
+  try {
+    const entries = await Karaoke.find()
+    const formattedEntries = entries.map(entry => ({
+      email: entry.email,
+      cantantes: entry.singers,
+      canciones: (entry.songs || []).map(song => ({
+        titulo: song.title,
+        enlace: song.link,
+        ...(song.duetWithHost ? { "con Helenita": "sipii" } : {"con Helenita": "¿con quién?"})
+      }))
+    }))
+    res.send(buildKaraokeHtml(formattedEntries))
+  } catch (error) {
+    res.status(500).json({ message: 'Error al buscar todas las canciones.', error: error.message })
+  }
+}
+
+module.exports = { createKaraoke, getKaraokeByEmail, getAllKaraoke }
