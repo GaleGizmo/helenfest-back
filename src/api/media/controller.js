@@ -3,6 +3,8 @@ const path = require('path')
 const mongoose = require('mongoose')
 const Guest = require('../guest/model')
 const Media = require('./model')
+const { isAdminEmail } = require('../../config/admin')
+const { hasValidAdminKey } = require('../../middleware/requireAdmin')
 const { MAX_IMAGE_BYTES, uploadsDir } = require('./upload')
 
 function removeFiles(files) {
@@ -62,8 +64,17 @@ async function uploadMedia(req, res) {
 
 async function getMedia(req, res) {
   try {
-    const items = await Media.find().sort({ createdAt: -1 }).limit(200)
-    res.json(items)
+    const viewer = String(req.query.email || '').trim().toLowerCase()
+    const canDeleteAll = isAdminEmail(viewer)
+    const items = await Media.find().sort({ createdAt: -1 }).limit(200).lean()
+
+    // El email de quien sube no se publica; solo se indica si el visitante puede borrar cada archivo.
+    res.json(
+      items.map(({ email, ...item }) => ({
+        ...item,
+        canDelete: canDeleteAll || (viewer !== '' && email === viewer),
+      }))
+    )
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener la galería.', error: error.message })
   }
@@ -75,9 +86,16 @@ async function deleteMedia(req, res) {
       return res.status(400).json({ message: 'El id no es válido.' })
     }
 
-    const item = await Media.findByIdAndDelete(req.params.id)
+    const item = await Media.findById(req.params.id)
     if (!item) return res.status(404).json({ message: 'No existe ningún archivo con ese id.' })
 
+    const user = String(req.get('x-user-email') || '').trim().toLowerCase()
+    const isOwner = user !== '' && user === item.email
+    if (!hasValidAdminKey(req) && !isOwner && !isAdminEmail(user)) {
+      return res.status(403).json({ message: 'Solo puedes borrar los archivos que has subido tú.' })
+    }
+
+    await Media.deleteOne({ _id: item._id })
     await removeStoredFiles([item])
     res.json({ deleted: 1, filename: item.filename })
   } catch (error) {

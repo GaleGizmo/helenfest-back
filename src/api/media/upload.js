@@ -3,9 +3,9 @@ const path = require('path')
 const crypto = require('crypto')
 const multer = require('multer')
 
-const MAX_FILES = 5
+const MAX_FILES = 10
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024
-const MAX_VIDEO_BYTES = 150 * 1024 * 1024
+const MAX_VIDEO_BYTES = 300 * 1024 * 1024
 
 // La extensión se deduce del mimetype validado, nunca del nombre que envía el cliente.
 const ALLOWED_TYPES = {

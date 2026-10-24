@@ -26,6 +26,6 @@ function handleUpload(req, res, next) {
 router.get('/', getMedia)
 router.post('/', handleUpload, uploadMedia)
 router.delete('/', requireAdmin, deleteMediaByEmail)
-router.delete('/:id', requireAdmin, deleteMedia)
+router.delete('/:id', deleteMedia)
 
 module.exports = router
